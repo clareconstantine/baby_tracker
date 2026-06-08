@@ -20,7 +20,7 @@ export default function HomePage() {
     };
 
     try {
-      const res = await fetch("/api/subscribe", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

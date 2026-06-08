@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
+const basePath = process.env.NODE_ENV === "production" ? "/baby-tracker" : "";
+
 const nextConfig: NextConfig = {
-  basePath: "/baby-tracker",
+  basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   turbopack: {
     root: __dirname,
   },
