@@ -1,12 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const token = searchParams.get("token");
+export async function GET(request: NextRequest) {
+  const token = request.nextUrl.searchParams.get("token");
+
+  const redirect = (search: string) => {
+    const url = request.nextUrl.clone();
+    url.pathname = "/unsubscribe";
+    url.search = search;
+    return NextResponse.redirect(url);
+  };
 
   if (!token) {
-    return NextResponse.redirect(new URL("/unsubscribe?error=missing", request.url));
+    return redirect("?error=missing");
   }
 
   const subscriber = await prisma.subscriber.findUnique({
@@ -14,7 +20,7 @@ export async function GET(request: Request) {
   });
 
   if (!subscriber) {
-    return NextResponse.redirect(new URL("/unsubscribe?error=invalid", request.url));
+    return redirect("?error=invalid");
   }
 
   await prisma.subscriber.update({
@@ -22,5 +28,5 @@ export async function GET(request: Request) {
     data: { active: false },
   });
 
-  return NextResponse.redirect(new URL("/unsubscribe?success=true", request.url));
+  return redirect("?success=true");
 }
