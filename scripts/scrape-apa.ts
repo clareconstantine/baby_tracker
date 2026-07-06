@@ -5,7 +5,8 @@
  *
  * Output: data/weekly-content.json
  *
- * APA content is quoted with attribution per their guidelines.
+ * TODO: Replace APA with a more neutral, medically reputable source (Mayo Clinic, ACOG, NHS).
+ * The APA is an anti-abortion advocacy group and not an appropriate long-term content source.
  * Source: https://americanpregnancy.org/week-by-week/
  */
 
@@ -82,7 +83,7 @@ function extractSections(html: string, week: number): Record<string, string> {
     const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     // Look for h2/h3 tag containing the heading text, then capture following <p> tags
     const headingPattern = new RegExp(
-      `<h[23][^>]*>[^<]*${escapedHeading}[^<]*</h[23]>(.*?)(?=<h[23]|<div class="wp-block|$)`,
+      `<h[23][^>]*>[^<]*${escapedHeading}[^<]*</h[23]>(.*?)(?=<h[23]|$)`,
       "is"
     );
     const match = html.match(headingPattern);
