@@ -7,7 +7,7 @@ import rawContent from "@/data/weekly-content.json";
 
 const weeklyContent = rawContent as WeekContent[];
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   // Verify this is being called by Vercel Cron (or a trusted caller in dev)
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -31,7 +31,8 @@ export async function POST(request: Request) {
       }
 
       const week = gestationalWeek(pregnancy.dueDate, today);
-      const unsubscribeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/unsubscribe?token=${subscriber.unsubscribeToken}`;
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+      const unsubscribeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${basePath}/api/unsubscribe?token=${subscriber.unsubscribeToken}`;
 
       if (week > 40) {
         await sendFinalEmail(subscriber.email, {
