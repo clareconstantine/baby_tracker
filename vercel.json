@@ -3,10 +3,5 @@
     {
       "path": "/baby-tracker/api/cron/weekly",
       "schedule": "0 15 * * *"
-    },
-    {
-      "path": "/baby-tracker/api/cron/weekly",
-      "schedule": "45 2 6 7 *"
-    }
   ]
 }
